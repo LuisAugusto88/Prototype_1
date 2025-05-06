@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5.0f;
-    public float turnSpeed;
-    public float horizontalInput;
-   
+    private float speed = 20.0f;
+    private float turnSpeed = 45.0f;
+    private float horizontalInput;
+    private float fowardInput;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,8 +17,19 @@ public class PlayerController : MonoBehaviour
     {
         // Mover o veículo para frente
         horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        transform.Translate(Vector3.forward * Time.deltaTime * turnSpeed * horizontalInput);
+        fowardInput = Input.GetAxis("Vertical");
+
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * fowardInput);
+        transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime );
+      //  transform.Translate(Vector3.right * Time.deltaTime * turnSpeed * horizontalInput);
         
+    }
+
+    void OntriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Obstacle"))
+        {
+            Debug.Log("Colidiu com o obstáculo");
+        }
     }
 }
